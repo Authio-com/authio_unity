@@ -10,6 +10,7 @@ namespace Authio
     /// first scene. The game scene calls <see cref="BeginOAuth"/> and
     /// <see cref="SendMagicLinkAsync"/>.
     /// </summary>
+    [DefaultExecutionOrder(100)]
     public sealed class AuthioDeepLink : MonoBehaviour
     {
         public AuthioConfig config;
@@ -21,6 +22,17 @@ namespace Authio
         IAuthioSessionStore _sessions;
         IAuthioPendingStore _pending;
 
+        /// <summary>
+        /// Supplies the stores before Awake. A game script at the default
+        /// execution order can call this from its own Awake. Null arguments
+        /// are left unchanged.
+        /// </summary>
+        public void Configure(IAuthioSessionStore sessions, IAuthioPendingStore pending)
+        {
+            if (sessions != null) _sessions = sessions;
+            if (pending != null) _pending = pending;
+        }
+
         void Awake()
         {
             if (config == null)
@@ -29,8 +41,8 @@ namespace Authio
                 return;
             }
             _client = config.CreateClient();
-            _sessions = new PlayerPrefsSessionStore();
-            _pending = new PlayerPrefsPendingStore();
+            if (_sessions == null) _sessions = AuthioSecureStore.Session();
+            if (_pending == null) _pending = AuthioSecureStore.Pending();
         }
 
         void OnEnable()

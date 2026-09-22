@@ -42,7 +42,7 @@ namespace Authio.Tests
             Assert.DoesNotContain("session_id", req.Body);
             Assert.Equal("Bearer pk_test_ok", req.Headers["Authorization"]);
             Assert.Equal("proj_1", req.Headers["X-Authio-Project"]);
-            Assert.Equal("unity/0.1.0", req.Headers["X-Authio-SDK"]);
+            Assert.Equal("unity/0.1.1", req.Headers["X-Authio-SDK"]);
             Assert.StartsWith("authio-unity/", req.Headers["User-Agent"]);
         }
 
@@ -231,6 +231,17 @@ namespace Authio.Tests
             var q = AuthioQuery.Parse("mygame://auth?code=abc&client_state_nonce=n+1");
             Assert.Equal("abc", q["code"]);
             Assert.Equal("n 1", q["client_state_nonce"]);
+        }
+
+        [Fact]
+        public void FragmentCallbackIsParsed()
+        {
+            var q = AuthioQuery.Parse("mygame://auth#code=fromfrag&client_state_nonce=n");
+            Assert.Equal("fromfrag", q["code"]);
+            Assert.Equal("n", q["client_state_nonce"]);
+
+            var both = AuthioQuery.Parse("mygame://auth?code=query#code=frag");
+            Assert.Equal("frag", both["code"]);
         }
 
         [Fact]

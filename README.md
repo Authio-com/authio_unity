@@ -11,12 +11,12 @@ Unity **2021.3** or newer. The HTTP and JSON core is .NET Standard 2.1 and is un
 Unity Package Manager → Add package from git URL:
 
 ```
-https://github.com/Authio-com/authio_unity.git#v0.1.0
+https://github.com/Authio-com/authio_unity.git#v0.1.1
 ```
 
 The package name is `com.authio.unity`. It depends on `com.unity.nuget.newtonsoft-json`. Unity's editor already ships that package; Package Manager adds it if it is missing.
 
-To follow `main` instead of the tagged release, omit `#v0.1.0`.
+To follow `main` instead of the tagged release, omit `#v0.1.1`.
 
 ## Configure
 
@@ -26,7 +26,11 @@ Create an asset with **Assets → Create → Authio → Config**. Set:
 - **project id** (`proj_…`). Every request sends `X-Authio-Project`. Authio rejects calls that do not name a project.
 - **api url** defaults to `https://identity.authio.com`, which is the auth-core host. `https://auth-api.authio.com` redirects there. `https://api.authio.com` is the management API and will not accept a publishable key.
 
-Put `AuthioDeepLink` on an object in the first scene and assign the config.
+Put `AuthioDeepLink` on an object in the first scene and assign the config. On device the session and the pending sign-in live in the iOS Keychain or the Android Keystore. In the editor they use PlayerPrefs. To keep the session out of the save file, call `Configure` from an earlier `Awake` (this component runs at execution order 100):
+
+```csharp
+authio.Configure(mySessionStore, myPendingStore);
+```
 
 Register the game's redirect URI on the project (for example `mygame://auth`):
 
@@ -76,7 +80,7 @@ if (!await client.VerifyAsync(session)) { /* sign in again */ }
 
 - Passkeys. Unity has no Credential Manager / WebAuthn bridge here.
 - Secret-key APIs (users, organizations, webhooks, admin portal). Use `Authio.Sdk` on the server.
-- A secure enclave. `PlayerPrefs` holds the refresh token in plaintext. Replace `IAuthioSessionStore` if the game needs stronger storage.
+- A custom enclave. Device storage is the iOS Keychain or the Android Keystore. Call `Configure` if the game already has its own store.
 
 ## Tests
 
