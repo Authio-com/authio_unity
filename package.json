@@ -1,0 +1,29 @@
+{
+  "name": "com.authio.unity",
+  "version": "0.1.0",
+  "displayName": "Authio",
+  "description": "Passwordless sign-in for Unity games. Magic link, social OAuth, and multi-organization sessions against Authio identity.",
+  "unity": "2021.3",
+  "documentationUrl": "https://github.com/Authio-com/authio_unity#readme",
+  "licensesUrl": "https://github.com/Authio-com/authio_unity/blob/main/LICENSE",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  },
+  "keywords": [
+    "auth",
+    "authentication",
+    "authio",
+    "passwordless"
+  ],
+  "author": {
+    "name": "Authio",
+    "url": "https://authio.com"
+  },
+  "samples": [
+    {
+      "displayName": "Basic Sign-In",
+      "description": "Magic link and Google OAuth from a MonoBehaviour, completed by a deep link.",
+      "path": "Samples~/Basic"
+    }
+  ]
+}
