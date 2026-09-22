@@ -21,15 +21,14 @@ namespace Authio
             try
             {
                 var uri = new Uri(url);
-                raw = uri.Query;
+                raw = JoinQueryAndFragment(uri.Query, uri.Fragment);
             }
             catch (UriFormatException)
             {
-                var q = url.IndexOf('?');
-                raw = q >= 0 ? url.Substring(q) : "";
+                raw = RawQueryOrFragment(url);
             }
 
-            if (raw.StartsWith("?", StringComparison.Ordinal))
+            if (raw.StartsWith("?", StringComparison.Ordinal) || raw.StartsWith("#", StringComparison.Ordinal))
             {
                 raw = raw.Substring(1);
             }
@@ -65,6 +64,26 @@ namespace Authio
                 sb.Append(Uri.EscapeDataString(pair.Value));
             }
             return sb.ToString();
+        }
+
+        static string JoinQueryAndFragment(string query, string fragment)
+        {
+            var frag = fragment ?? "";
+            if (frag.StartsWith("#", StringComparison.Ordinal)) frag = frag.Substring(1);
+            if (frag.Length == 0) return query ?? "";
+            if (string.IsNullOrEmpty(query) || query == "?") return "#" + frag;
+            return query + "&" + frag;
+        }
+
+        static string RawQueryOrFragment(string url)
+        {
+            var q = url.IndexOf('?');
+            var h = url.IndexOf('#');
+            if (q < 0 && h < 0) return "";
+            if (q < 0) return url.Substring(h);
+            if (h < 0) return url.Substring(q);
+            if (h < q) return url.Substring(h);
+            return url.Substring(q, h - q) + "&" + url.Substring(h + 1);
         }
 
         static string Decode(string value)

@@ -1,16 +1,16 @@
 {
-    "name": "Authio.Unity.Core",
-    "rootNamespace": "Authio",
+    "name": "Authio.Unity.DotnetTests",
+    "rootNamespace": "Authio.Tests",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
-    "precompiledReferences": [
-        "Newtonsoft.Json.dll"
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "AUTHIO_DOTNET_TESTS"
     ],
-    "autoReferenced": true,
-    "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": true
 }

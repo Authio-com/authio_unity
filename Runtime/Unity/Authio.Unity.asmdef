@@ -2,14 +2,15 @@
     "name": "Authio.Unity",
     "rootNamespace": "Authio",
     "references": [
-        "Authio.Unity.Core",
-        "Unity.Newtonsoft.Json"
+        "Authio.Unity.Core"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "Newtonsoft.Json.dll"
+    ],
     "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],

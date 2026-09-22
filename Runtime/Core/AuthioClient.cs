@@ -14,7 +14,7 @@ namespace Authio
     /// </summary>
     public sealed class AuthioClient
     {
-        public const string Version = "0.1.0";
+        public const string Version = "0.1.1";
         public const string DefaultApiUrl = "https://identity.authio.com";
 
         static readonly Regex ProviderPattern = new Regex(

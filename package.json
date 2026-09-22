@@ -1,6 +1,6 @@
 {
   "name": "com.authio.unity",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "Authio",
   "description": "Passwordless sign-in for Unity games. Magic link, social OAuth, and multi-organization sessions against Authio identity.",
   "unity": "2021.3",
