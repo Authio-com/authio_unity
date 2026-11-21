@@ -4,5 +4,15 @@
     <MSBuildProjectExtensionsPath>$(BaseIntermediateOutputPath)</MSBuildProjectExtensionsPath>
     <BaseOutputPath>bin/$(MSBuildProjectName)/</BaseOutputPath>
     <DefaultItemExcludes>$(DefaultItemExcludes);obj/**;bin/**</DefaultItemExcludes>
+
+    <!-- Commit NuGet lock files so restores are reproducible; CI restores in
+         locked mode, so a stale lock fails the run (refresh with a plain
+         "dotnet restore" after changing a PackageReference). Both projects
+         share this folder, so the core library gets its own lock file name;
+         the test project keeps the conventional packages.lock.json, which
+         also covers the core library's packages through its ProjectReference. -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestoreLockedMode Condition="'$(CI)' == 'true'">true</RestoreLockedMode>
+    <NuGetLockFilePath Condition="'$(MSBuildProjectName)' == 'Authio.Unity.Core'">packages.Authio.Unity.Core.lock.json</NuGetLockFilePath>
   </PropertyGroup>
 </Project>
